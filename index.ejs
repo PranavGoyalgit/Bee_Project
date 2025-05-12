@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Manager</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Event Manager</h1>
+    <form action="/addevent" method="POST">
+        <input type="text" name="id" placeholder="Event ID" required><br><br>
+        <input type="text" name="name" placeholder="Event Name" required><br><br>
+        <input type="time" name="time" required><br><br>
+        <textarea name="details" placeholder="Event Details" required></textarea><br><br>
+        <button type="submit">Add Event</button>
+        <br>
+    </form>
+    <h2>Get Event by ID</h2>
+    <form action="/geteventbyid" method="GET">
+        <input type="text" name="id" placeholder="Event ID" required>
+        <button type="submit">Get Event</button>
+    </form>
+    <% if (selectedEvent) { %>
+        <h2>Event Details</h2>
+        <ul>
+            <li><strong>ID:</strong> <%= selectedEvent.id %></li>
+            <li><strong>Name:</strong> <%= selectedEvent.name %></li>
+            <li><strong>Time:</strong> <%= selectedEvent.time %></li>
+            <li><strong>Details:</strong> <%= selectedEvent.details %></li>
+        </ul>
+    <% } %>
+    <h2>All Events</h2>
+    <ul>
+        <% events.forEach(event => {%>
+            <li>
+                <strong>ID:</strong> <%= event.id %> <br>
+                <strong>Name:</strong> <%= event.name %> <br>
+                <strong>Time:</strong> <%= event.time %> <br>
+                <strong>Details:</strong> <%= event.details %> <br>
+                <form action="/deleteevent/<%=event.id %>" method="POST">
+                    <button type="submit">Delete</button>
+                </form>
+                <form action="/updateevents" method="POST">
+                    <input type="hidden" name="id" value="<%= event.id %>">
+                    <input type="text" name="name" placeholder="New Name">
+                    <input type="time" name="time">
+                    <textarea name="details" placeholder="New Details"></textarea>
+                    <button type="submit">Update</button><br>
+                </form>
+            </li>
+            <br>
+        <% }) %>
+    </ul>
+</body>
+</html>
